@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const colors = require('colors');
 
 // to saving user credentials in th cookie
 const cookieParser = require('cookie-parser');
@@ -25,13 +26,19 @@ const app = express();
 mongoose
   .connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
-    useCreateIndex: true
+    useCreateIndex: true,
+    useUnifiedTopology: true
   })
-  .then(() => console.log('Online Marketplace Atlas MongoDB Connected!'));
+  .then(() =>
+    console.log(
+      'Online Marketplace Atlas MongoDB Connected!'.cyan.underline.bold
+    )
+  );
 
 mongoose.connection.on('err', err => {
   console.log(
-    `Online Marketplace Atlas MongoDB connection error: ${err.message} `
+    `Online Marketplace Atlas MongoDB connection error: ${err.message}`.cyan
+      .underline.bold
   );
 });
 
@@ -55,5 +62,7 @@ app.use('/api', orderRoutes);
 
 const port = process.env.PORT || 7001;
 app.listen(port, () => {
-  console.log(`Online-Marketplace Server is running on port ${port}`);
+  console.log(
+    `Online-Marketplace Server is running on port ${port}`.rainbow.bold
+  );
 });
